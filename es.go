@@ -27,7 +27,11 @@ func main() {
 	esURL := getEnv("ES_URL")
 	esSnapshotRepo := getEnv("ES_SNAPSHOT_REPO")
 	snapShotLimitString := getEnv("ES_SNAPSHOT_LIMIT")
-	snapShotLimit, _ := strconv.Atoi(snapShotLimitString)
+	snapShotLimit, err := strconv.Atoi(snapShotLimitString)
+
+	if err != nil {
+		log.Fatal("only int number is possible")
+	}
 
 	t := time.Now()
 	esSnapshotId := fmt.Sprintf("%d%02d%02d_%02d%02d", t.Year(), t.Month(), t.Day(), t.Hour(), t.Minute())
@@ -41,6 +45,9 @@ func main() {
 
 func getEnv(key string) string {
 	v, ok := os.LookupEnv(key)
+	if !v {
+		log.Fatalf("no empty value allowed to environment variable %s", key)
+	}
 	if !ok {
 		log.Fatalf("required environment variable %s is not set", key)
 	}
@@ -144,3 +151,4 @@ func checkSnapshotStatus(url string, repo string, snapId string) {
 		os.Exit(1)
 	}
 }
+
