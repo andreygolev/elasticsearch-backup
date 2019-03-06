@@ -1,0 +1,6 @@
+FROM scratch
+ENV ES_URL ""
+ENV ES_SNAPSHOT_REPO "s3"
+ENV ES_SNAPSHOT_LIMIT "24"
+ADD es /
+CMD ["/es"]

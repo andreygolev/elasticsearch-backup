@@ -45,7 +45,7 @@ func main() {
 
 func getEnv(key string) string {
 	v, ok := os.LookupEnv(key)
-	if !v {
+	if v == "" {
 		log.Fatalf("no empty value allowed to environment variable %s", key)
 	}
 	if !ok {
